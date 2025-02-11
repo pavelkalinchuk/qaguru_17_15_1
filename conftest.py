@@ -6,24 +6,27 @@ from selene import browser
 
 base_url = 'https://github.com'
 
-# Фикстура для десктопной версии
-@pytest.fixture(scope='function')
-def desktop_browser():
-    driver_options = webdriver.ChromeOptions()
-    driver_options.page_load_strategy = 'normal'
-    driver_options.add_argument('--window-size=1920,1080')
+
+# Фикстура для десктопной версии бараузера
+@pytest.fixture(scope='function', params=[(1920, 1080)])
+def desktop_browser(request):
+    width, height = request.param
+    browser.config.window_width = width
+    browser.config.window_height = height
     browser.config.base_url = base_url
+
     yield
     browser.quit()
 
 
-# Фикстура для мобильной версии
-@pytest.fixture(scope='function')
-def mobile_browser():
-    driver_options = webdriver.ChromeOptions()
-    driver_options.page_load_strategy = 'normal'
-    driver_options.add_argument('--window-size=375,677')
+# Фикстура для мобильной версии браузера
+@pytest.fixture(scope='function', params=[(390, 844)])
+def mobile_browser(request):
+    width, height = request.param
+    browser.config.window_width = width
+    browser.config.window_height = height
     browser.config.base_url = base_url
+
     yield
     browser.quit()
 
@@ -54,4 +57,3 @@ def setup_browser_with_check_device_type(request):
     device_type = "desktop" if width > 1000 else "mobile"
     yield device_type
     browser.quit()
-

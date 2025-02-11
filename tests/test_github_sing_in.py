@@ -4,15 +4,16 @@ from selene import browser, be, have, by
 
 def test_github_sign_in_desktop(desktop_browser):
     browser.open('/')
-    sing_in_button = browser.element("a.HeaderMenu-link--sign-in")
-    sing_in_button.should(be.visible)
-    sing_in_button.click()
+    sign_in_button = browser.element("a.HeaderMenu-link--sign-in")
+    sign_in_button.should(be.visible)
+    sign_in_button.click()
     browser.should(have.url_containing("login"))
 
 
-def test_github_sing_in_mobile(mobile_browser):
+def test_github_sign_in_mobile(mobile_browser):
     browser.open('/')
-    sign_in_button = browser.element(by.text("Sign up"))
+    browser.element("[class='Button-content']").click()
+    sign_in_button = browser.element(by.text("Sign in"))
     sign_in_button.should(be.visible)
     sign_in_button.click()
 
@@ -25,7 +26,7 @@ def test_github_sing_in_mobile(mobile_browser):
 def test_mobile_parametrize(setup_browser, width, height):
     browser.open('/')
     browser.element("[class='Button-content']").click()
-    sign_in_button = browser.element(by.text("Sign up"))
+    sign_in_button = browser.element(by.text("Sign in"))
     sign_in_button.click()
 
 
